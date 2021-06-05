@@ -1,0 +1,388 @@
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-06-01 18:08:11.732349"], ["updated_at", "2021-06-01 18:08:11.732349"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateMovies (20210605063835)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "movies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "plot" varchar, "title" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605063835"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateSeasons (20210605063850)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "seasons" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "plot" varchar, "title" varchar, "number" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605063850"]]
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateEpisodes (20210605063908)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "episodes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "plot" varchar, "title" varchar, "number_of_epiosdes" integer, "season_id" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_episodes_on_season_id" ON "episodes" ("season_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605063908"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateUsers (20210605070939)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar)[0m
+  [1m[36mprimary::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605070939"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreatePurchaseOrders (20210605071218)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "purchase_orders" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "purchasable_type" varchar, "purchasable_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_purchase_orders_on_user_id" ON "purchase_orders" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_purchase_orders_on_purchasable_type_and_purchasable_id" ON "purchase_orders" ("purchasable_type", "purchasable_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605071218"]]
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.7ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreatePurchaseOrders (20210605071218)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.6ms)[0m  [1m[35mDROP TABLE "purchase_orders"[0m
+  [1m[36mprimary::SchemaMigration Destroy (0.5ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = ?[0m  [["version", "20210605071218"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreatePurchaseOrders (20210605071218)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE TABLE "purchase_orders" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "purchasable_type" varchar, "purchasable_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_purchase_orders_on_user_id" ON "purchase_orders" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_purchase_orders_on_purchasable_type_and_purchasable_id" ON "purchase_orders" ("purchasable_type", "purchasable_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605071218"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreatePurchaseOrders (20210605071218)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.5ms)[0m  [1m[35mDROP TABLE "purchase_orders"[0m
+  [1m[36mprimary::SchemaMigration Destroy (0.5ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = ?[0m  [["version", "20210605071218"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreatePurchaseOrders (20210605071218)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "purchase_orders" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "purchasable_type" varchar, "purchasable_id" integer, "price" float)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_purchase_orders_on_user_id" ON "purchase_orders" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_purchase_orders_on_purchasable_type_and_purchasable_id" ON "purchase_orders" ("purchasable_type", "purchasable_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605071218"]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+DEPRECATION WARNING: Using `bin/rake routes` is deprecated and will be removed in Rails 6.1. Use `bin/rails routes` instead.
+ (called from load at /Users/namang/.rvm/gems/ruby-2.6.3/bin/rake:23)
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mMovie Load (0.5ms)[0m  [1m[34mSELECT "movies".* FROM "movies" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mMovie Load (0.3ms)[0m  [1m[34mSELECT "movies".* FROM "movies" ORDER BY "movies"."created_at" ASC LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mMovie Load (0.3ms)[0m  [1m[34mSELECT "movies".* FROM "movies" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mSeason Create (1.3ms)[0m  [1m[32mINSERT INTO "seasons" ("title", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["title", "sdsadsd"], ["created_at", "2021-06-05 08:21:52.057979"], ["updated_at", "2021-06-05 08:21:52.057979"]]
+  [1m[35m (1.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mSeason Load (0.2ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mSeason Load (0.3ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons"[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mSeason Destroy (0.4ms)[0m  [1m[31mDELETE FROM "seasons" WHERE "seasons"."id" = ?[0m  [["id", 1]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mSeason Load (0.1ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mSeason Create (0.6ms)[0m  [1m[32mINSERT INTO "seasons" ("title", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["title", "season 1"], ["created_at", "2021-06-05 08:35:17.053046"], ["updated_at", "2021-06-05 08:35:17.053046"]]
+  [1m[35m (1.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mSeason Create (0.5ms)[0m  [1m[32mINSERT INTO "seasons" ("title", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["title", "season 2"], ["created_at", "2021-06-05 08:35:19.547153"], ["updated_at", "2021-06-05 08:35:19.547153"]]
+  [1m[35m (1.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mSeason Create (0.5ms)[0m  [1m[32mINSERT INTO "seasons" ("title", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["title", "season 3"], ["created_at", "2021-06-05 08:35:21.942732"], ["updated_at", "2021-06-05 08:35:21.942732"]]
+  [1m[35m (1.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mSeason Load (0.1ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mSeason Load (0.1ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" WHERE "seasons"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mEpisode Create (1.4ms)[0m  [1m[32mINSERT INTO "episodes" ("title", "season_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "episode 1"], ["season_id", 3], ["created_at", "2021-06-05 08:53:16.778010"], ["updated_at", "2021-06-05 08:53:16.778010"]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mEpisode Load (0.3ms)[0m  [1m[34mSELECT "episodes".* FROM "episodes" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mSeason Load (0.2ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" ORDER BY "seasons"."created_at" ASC LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mSeason Load (0.2ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" ORDER BY "seasons"."created_at" ASC LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mEpisode Load (0.2ms)[0m  [1m[34mSELECT "episodes".* FROM "episodes" WHERE "episodes"."season_id" IN (?, ?, ?)[0m  [["season_id", 2], ["season_id", 3], ["season_id", 4]]
+  [1m[36mSeason Load (0.2ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" ORDER BY "seasons"."created_at" ASC LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mSeason Load (0.2ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" ORDER BY "seasons"."created_at" ASC LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mEpisode Load (0.2ms)[0m  [1m[34mSELECT "episodes".* FROM "episodes" WHERE "episodes"."season_id" IN (?, ?, ?)[0m  [["season_id", 2], ["season_id", 3], ["season_id", 4]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "seasons"[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "seasons"[0m
+  [1m[36mSeason Load (0.2ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" ORDER BY "seasons"."created_at" ASC LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mEpisode Load (0.2ms)[0m  [1m[34mSELECT "episodes".* FROM "episodes" WHERE "episodes"."season_id" IN (?, ?, ?)[0m  [["season_id", 2], ["season_id", 3], ["season_id", 4]]
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT "seasons"."number" FROM "seasons" LEFT OUTER JOIN "episodes" ON "episodes"."season_id" = "seasons"."id" ORDER BY "seasons"."created_at" ASC[0m
+  [1m[36mMovie Load (0.3ms)[0m  [1m[34mSELECT "movies".* FROM "movies" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mMovie Load (0.3ms)[0m  [1m[34mSELECT "movies".* FROM "movies" ORDER BY "movies"."created_at" ASC LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mSeason Load (0.3ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" ORDER BY "seasons"."created_at" ASC LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mSeason Load (0.1ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" ORDER BY "seasons"."created_at" ASC LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mEpisode Load (0.2ms)[0m  [1m[34mSELECT "episodes".* FROM "episodes" WHERE "episodes"."season_id" IN (?, ?, ?)[0m  [["season_id", 2], ["season_id", 3], ["season_id", 4]]
+  [1m[36mSeason Load (0.2ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" ORDER BY "seasons"."created_at" ASC LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mSeason Load (0.2ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" ORDER BY "seasons"."created_at" ASC LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mEpisode Load (0.2ms)[0m  [1m[34mSELECT "episodes".* FROM "episodes" WHERE "episodes"."season_id" IN (?, ?, ?)[0m  [["season_id", 2], ["season_id", 3], ["season_id", 4]]
+  [1m[36mSeason Load (0.2ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" ORDER BY "seasons"."created_at" ASC LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mSeason Load (0.3ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" ORDER BY "seasons"."created_at" ASC LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mEpisode Load (0.2ms)[0m  [1m[34mSELECT "episodes".* FROM "episodes" WHERE "episodes"."season_id" IN (?, ?, ?)[0m  [["season_id", 2], ["season_id", 3], ["season_id", 4]]
+  [1m[35m (1.7ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreatePurchasedContent (20210605102428)
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreatePurchasedContent (20210605102428)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "purchased_contents" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "purchase_orders_id" integer, "purchasable_type" varchar, "purchasable_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_purchased_contents_on_purchase_orders_id" ON "purchased_contents" ("purchase_orders_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreatePurchaseOrders (20210605071218)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.4ms)[0m  [1m[35mDROP TABLE "purchase_orders"[0m
+  [1m[36mprimary::SchemaMigration Destroy (0.6ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = ?[0m  [["version", "20210605071218"]]
+  [1m[35m (1.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreatePurchaseOrders (20210605071218)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "purchase_orders" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "purchasable_type" varchar, "purchasable_id" integer, "price" float)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_purchase_orders_on_user_id" ON "purchase_orders" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_purchase_orders_on_purchasable_type_and_purchasable_id" ON "purchase_orders" ("purchasable_type", "purchasable_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605071218"]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateContent (20210605102428)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "contents" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "purchase_orders_id" integer, "purchasable_type" varchar, "purchasable_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_contents_on_purchase_orders_id" ON "contents" ("purchase_orders_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_contents_on_purchasable_type_and_purchasable_id" ON "contents" ("purchasable_type", "purchasable_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605102428"]]
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mSeason Load (0.1ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mSeason Load (0.2ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mEpisode Load (0.2ms)[0m  [1m[34mSELECT "episodes".* FROM "episodes" WHERE "episodes"."season_id" IN (?, ?, ?) ORDER BY "episodes"."created_at" ASC[0m  [["season_id", 2], ["season_id", 3], ["season_id", 4]]
+  [1m[36mEpisode Load (0.2ms)[0m  [1m[34mSELECT "episodes".* FROM "episodes" ORDER BY "episodes"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mSeason Load (0.2ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" ORDER BY "seasons"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mSeason Load (0.1ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mEpisode Load (0.2ms)[0m  [1m[34mSELECT "episodes".* FROM "episodes" WHERE "episodes"."season_id" IN (?, ?, ?) ORDER BY "episodes"."id" ASC[0m  [["season_id", 2], ["season_id", 3], ["season_id", 4]]
+  [1m[36mSeason Load (0.2ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons"[0m
+  [1m[36mEpisode Load (0.3ms)[0m  [1m[34mSELECT "episodes".* FROM "episodes" WHERE "episodes"."season_id" IN (?, ?, ?) ORDER BY "episodes"."id" ASC[0m  [["season_id", 2], ["season_id", 3], ["season_id", 4]]
+  [1m[36mMovie Load (0.1ms)[0m  [1m[34mSELECT "movies".* FROM "movies" ORDER BY "movies"."created_at" ASC LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mMovie Load (0.3ms)[0m  [1m[34mSELECT "movies".* FROM "movies" GROUP BY "movies"."created_at" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mSeason Load (0.2ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" GROUP BY "seasons"."created_at" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mSeason Load (0.2ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" GROUP BY "seasons"."created_at" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mEpisode Load (0.3ms)[0m  [1m[34mSELECT "episodes".* FROM "episodes" GROUP BY "episodes"."created_at" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mSeason Load (0.2ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" GROUP BY "seasons"."created_at" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mEpisode Load (0.2ms)[0m  [1m[34mSELECT "episodes".* FROM "episodes" GROUP BY "episodes"."created_at" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mEpisode Load (0.1ms)[0m  [1m[34mSELECT "episodes".* FROM "episodes" GROUP BY "episodes"."created_at" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mSeason Load (0.1ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" GROUP BY "seasons"."created_at" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("email") VALUES (?)[0m  [["email", "naman@abc.com"]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email") VALUES (?)[0m  [["email", "naman@abc.com"]]
+  [1m[35m (1.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateContent (20210605102428)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mDROP TABLE "contents"[0m
+  [1m[36mprimary::SchemaMigration Destroy (0.2ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = ?[0m  [["version", "20210605102428"]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreatePurchaseOrders (20210605071218)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.7ms)[0m  [1m[35mDROP TABLE "purchase_orders"[0m
+  [1m[36mprimary::SchemaMigration Destroy (0.2ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = ?[0m  [["version", "20210605071218"]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateMovies (20210605063835)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "movies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "plot" varchar, "title" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605063835"]]
+  [1m[35m (1.2ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateSeasons (20210605063850)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "seasons" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "plot" varchar, "title" varchar, "number" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605063850"]]
+  [1m[35m (2.1ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateEpisodes (20210605063908)
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "episodes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "plot" varchar, "title" varchar, "number_of_epiosdes" integer, "season_id" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE  INDEX "index_episodes_on_season_id" ON "episodes" ("season_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605063908"]]
+  [1m[35m (1.2ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateUsers (20210605070939)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar)[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605070939"]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreatePurchaseOrders (20210605071218)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "purchase_orders" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "purchasable_type" varchar, "purchasable_id" integer, "price" float)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_purchase_orders_on_user_id" ON "purchase_orders" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_purchase_orders_on_purchasable_type_and_purchasable_id" ON "purchase_orders" ("purchasable_type", "purchasable_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605071218"]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateContent (20210605102428)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "contents" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "purchase_orders_id" integer, "purchasable_type" varchar, "purchasable_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_contents_on_purchase_orders_id" ON "contents" ("purchase_orders_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_contents_on_purchasable_type_and_purchasable_id" ON "contents" ("purchasable_type", "purchasable_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605102428"]]
+  [1m[35m (1.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-06-05 11:21:13.225185"], ["updated_at", "2021-06-05 11:21:13.225185"]]
+  [1m[35m (1.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateMovies (20210605063835)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "movies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "plot" varchar, "title" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605063835"]]
+  [1m[35m (1.4ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateSeasons (20210605063850)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "seasons" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "plot" varchar, "title" varchar, "number" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605063850"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateEpisodes (20210605063908)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "episodes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "plot" varchar, "title" varchar, "number_of_epiosdes" integer, "season_id" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_episodes_on_season_id" ON "episodes" ("season_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605063908"]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateUsers (20210605070939)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar)[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605070939"]]
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreatePurchaseOrders (20210605071218)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE TABLE "purchase_orders" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "price" float)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_purchase_orders_on_user_id" ON "purchase_orders" ("user_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605071218"]]
+  [1m[35m (1.4ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateContent (20210605102428)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE TABLE "contents" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "purchase_order_id" integer, "purchasable_type" varchar, "purchasable_id" integer)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_contents_on_purchase_order_id" ON "contents" ("purchase_order_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_contents_on_purchasable_type_and_purchasable_id" ON "contents" ("purchasable_type", "purchasable_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20210605102428"]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.8ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-06-05 11:22:17.316392"], ["updated_at", "2021-06-05 11:22:17.316392"]]
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("email") VALUES (?)[0m  [["email", "naman@abc.com"]]
+  [1m[35m (1.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mPurchaseOrder Create (0.4ms)[0m  [1m[32mINSERT INTO "purchase_orders" ("user_id") VALUES (?)[0m  [["user_id", 1]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMovie Create (0.3ms)[0m  [1m[32mINSERT INTO "movies" ("title", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["title", "3000 rise of empire"], ["created_at", "2021-06-05 11:23:34.071297"], ["updated_at", "2021-06-05 11:23:34.071297"]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mSeason Create (0.3ms)[0m  [1m[32mINSERT INTO "seasons" ("title", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["title", "star plus"], ["created_at", "2021-06-05 11:24:00.844686"], ["updated_at", "2021-06-05 11:24:00.844686"]]
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mMovie Load (0.2ms)[0m  [1m[34mSELECT "movies".* FROM "movies" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mSeason Load (0.2ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mMovie Load (0.2ms)[0m  [1m[34mSELECT "movies".* FROM "movies"[0m
+  [1m[36mSeason Load (0.2ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons"[0m
+  [1m[36mMovie Load (0.2ms)[0m  [1m[34mSELECT "movies".* FROM "movies" ORDER BY "movies"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mMovie Load (0.1ms)[0m  [1m[34mSELECT "movies".* FROM "movies" ORDER BY "movies"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mMovie Load (0.2ms)[0m  [1m[34mSELECT "movies".* FROM "movies" ORDER BY "movies"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mPurchaseOrder Load (0.6ms)[0m  [1m[34mSELECT "purchase_orders".* FROM "purchase_orders" WHERE "purchase_orders"."user_id" = ? LIMIT ?[0m  [["user_id", 1], ["LIMIT", 11]]
+  [1m[36mPurchaseOrder Load (0.2ms)[0m  [1m[34mSELECT "purchase_orders".* FROM "purchase_orders" WHERE "purchase_orders"."user_id" = ? LIMIT ?[0m  [["user_id", 1], ["LIMIT", 11]]
+  [1m[36mMovie Load (0.6ms)[0m  [1m[34mSELECT "movies".* FROM "movies" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mSeason Load (0.4ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mMovie Load (0.1ms)[0m  [1m[34mSELECT "movies".* FROM "movies"[0m
+  [1m[36mSeason Load (0.1ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons"[0m
+  [1m[36mPurchaseOrder Load (0.1ms)[0m  [1m[34mSELECT "purchase_orders".* FROM "purchase_orders" WHERE "purchase_orders"."user_id" = ? LIMIT ?[0m  [["user_id", 1], ["LIMIT", 11]]
+  [1m[36mMovie Load (0.2ms)[0m  [1m[34mSELECT "movies".* FROM "movies" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mSeason Load (0.1ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[36mMovie Load (0.2ms)[0m  [1m[34mSELECT "movies".* FROM "movies"[0m
+  [1m[36mSeason Load (0.1ms)[0m  [1m[34mSELECT "seasons".* FROM "seasons"[0m
+  [1m[36mPurchaseOrder Load (0.2ms)[0m  [1m[34mSELECT "purchase_orders".* FROM "purchase_orders" WHERE "purchase_orders"."user_id" = ? LIMIT ?[0m  [["user_id", 1], ["LIMIT", 11]]
+  [1m[36mPurchaseOrder Load (0.2ms)[0m  [1m[34mSELECT "purchase_orders".* FROM "purchase_orders" WHERE "purchase_orders"."user_id" = ? LIMIT ?[0m  [["user_id", 1], ["LIMIT", 11]]
+  [1m[36mPurchaseOrder Load (0.1ms)[0m  [1m[34mSELECT "purchase_orders".* FROM "purchase_orders" WHERE "purchase_orders"."user_id" = ? LIMIT ?[0m  [["user_id", 1], ["LIMIT", 11]]
+  [1m[36mContent Load (0.7ms)[0m  [1m[34mSELECT "contents".* FROM "contents" ORDER BY "contents"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
