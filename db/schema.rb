@@ -16,6 +16,8 @@ ActiveRecord::Schema.define(version: 2021_06_05_102428) do
     t.integer "purchase_order_id"
     t.string "purchasable_type"
     t.integer "purchasable_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["purchasable_type", "purchasable_id"], name: "index_contents_on_purchasable_type_and_purchasable_id"
     t.index ["purchase_order_id"], name: "index_contents_on_purchase_order_id"
   end
@@ -23,7 +25,7 @@ ActiveRecord::Schema.define(version: 2021_06_05_102428) do
   create_table "episodes", force: :cascade do |t|
     t.string "plot"
     t.string "title"
-    t.integer "number_of_epiosdes"
+    t.integer "number"
     t.integer "season_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -40,6 +42,9 @@ ActiveRecord::Schema.define(version: 2021_06_05_102428) do
   create_table "purchase_orders", force: :cascade do |t|
     t.integer "user_id"
     t.float "price"
+    t.string "video_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_purchase_orders_on_user_id"
   end
 

@@ -3,6 +3,8 @@ class CreateContent < ActiveRecord::Migration[6.0]
     create_table :contents do |t|
     	t.references :purchase_order
     	t.references :purchasable, polymorphic: true
+
+    	t.timestamps
     end
   end
 end

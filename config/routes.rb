@@ -4,5 +4,7 @@ Rails.application.routes.draw do
   resources :purchase_orders
   resources :epiosdes
   resources :movies
-  resources :seasons
+  resources :seasons, only: [] do
+  	get  :movies_seasons_list, on: :collection
+  end
 end

@@ -3,7 +3,7 @@ class CreateEpisodes < ActiveRecord::Migration[6.0]
     create_table :episodes do |t|
       t.string :plot 
       t.string :title
-      t.integer :number_of_epiosdes
+      t.integer :number
       t.belongs_to :season
       
       t.timestamps
